@@ -13,7 +13,8 @@ int main(int argc, char **argv) {
     return 1;
   }
 
-  std::string server_hostname;
+  
+  std::string server_hostname;  //initializing variables
   int server_port;
   std::string username;
 
@@ -35,7 +36,7 @@ int main(int argc, char **argv) {
     serverConnection.close();
     exit(1);
   }
-  if(serverResponse.tag == TAG_ERR) {
+  if(serverResponse.tag == TAG_ERR) {     //error handling block for the server's errors
     std::cerr << serverResponse.data;
     serverConnection.close();
     exit(1);
@@ -50,9 +51,9 @@ int main(int argc, char **argv) {
     if (senderMsg.tag.empty()) { // invalid command/message
       continue;
     }
-    serverConnection.send(senderMsg);
+    serverConnection.send(senderMsg);     
 
-    if(!serverConnection.receive(serverResponse)) {
+    if(!serverConnection.receive(serverResponse)) {   //case for if server responds back with an error or not at all
       std::cerr << "Error: " << serverConnection.get_last_result() << "\n";
       serverConnection.close();
       exit(1);
@@ -61,12 +62,12 @@ int main(int argc, char **argv) {
       std::cerr << serverResponse.data;
     }
 
-    if(senderMsg.tag == TAG_QUIT) {
+    if(senderMsg.tag == TAG_QUIT) {     //quit block
       break;
     }
 
   }
 
   serverConnection.close();
-  return 0;
+  return 0;     //succesful end case
 }

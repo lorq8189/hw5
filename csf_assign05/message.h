@@ -19,20 +19,7 @@ struct Message {
   Message(const std::string &tag, const std::string &data)
     : tag(tag), data(data) { }
 
-  void parseLineIntoMessage(const std::string &line) {      //helper function to parse
-    size_t colonPos = line.find(':');
-    tag = line.substr(0, colonPos);
-    data = line.substr(colonPos + 1);
-  }
-  
-  void parseRLineIntoMessage(const std::string &line) {     //helper function to parse messages for receiver
-    size_t colonPos = line.find(':');
-    std::string line2 = line.substr(colonPos + 1);
-
-    colonPos = line2.find(':');
-    tag = line2.substr(0, colonPos);
-    data = line2.substr(colonPos + 1);
-  }
+  // TODO: you could add helper functions
 };
 
 // standard message tags (note that you don't need to worry about
