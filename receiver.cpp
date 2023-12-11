@@ -21,11 +21,9 @@ int main(int argc, char **argv) {
   std::string room = argv[4];
   Message response;
 
-  // TODO: connect to server
   Connection serverConnection;
   serverConnection.connect(server_hostname, port);
 
-  // TODO: send rlogin and join messages (expect a response from
   //       the server for each one)
   Message receiverLog(TAG_RLOGIN, username);  //rlogin
   serverConnection.send(receiverLog);
@@ -55,11 +53,6 @@ int main(int argc, char **argv) {
     serverConnection.close();
     exit(1);
   }
-
-  // TODO: loop waiting for messages from server
-  //       (which should be tagged with TAG_DELIVERY)
-
-
 
   while(serverConnection.receive(response)) {
     if(response.tag == TAG_ERR) {                     //error handling from server error

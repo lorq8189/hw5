@@ -27,11 +27,16 @@ struct Message {
   
   void parseRLineIntoMessage(const std::string &line) {     //helper function to parse messages for receiver
     size_t colonPos = line.find(':');
-    std::string line2 = line.substr(colonPos + 1);
+    // std::string line2 = line.substr(colonPos + 1);
 
-    colonPos = line2.find(':');
-    tag = line2.substr(0, colonPos);
-    data = line2.substr(colonPos + 1);
+    // colonPos = line2.find(':');
+    tag = line.substr(0, colonPos);
+    data = line.substr(colonPos + 1);
+  }
+
+  void createMsg(const std::string &msgTag, const std::string &msgData) {
+    tag = msgTag;
+    
   }
 };
 

@@ -10,7 +10,7 @@ struct User {
   // queue of pending messages awaiting delivery
   MessageQueue mqueue;
 
-  User(const std::string &username) : username(username) { }
+  User(const std::string &username) : username(username), mqueue() { }
 };
 
 #endif // USER_H

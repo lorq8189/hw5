@@ -1039,7 +1039,7 @@ int open_listenfd(const char *port)
     freeaddrinfo(listp);
     if (!p) /* No address worked */
         return -1;
-
+    
     /* Make it a listening socket ready to accept connection requests */
     if (listen(listenfd, LISTENQ) < 0) {
         close(listenfd);
