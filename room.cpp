@@ -18,11 +18,13 @@ Room::~Room() {
 
 void Room::add_member(User *user) {
   // TODO: add User to the room
+  Guard g(lock);
   members.insert(user);
 }
 
 void Room::remove_member(User *user) {
   // TODO: remove User from the room
+  Guard g(lock);
   members.erase(user);
 }
 
