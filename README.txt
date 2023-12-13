@@ -1,15 +1,19 @@
 Sample README.txt
 
-Joanna did the sender part in MS1, and implemented the entirety of the main and server.cpp, along with a lot of debugging
+Joanna did the sender part in MS1, implemented the entirety of the main and server.cpp, and wrote part of the readme, 
+along with generally a lot of debugging.
 
-Lucas did the receiver part in MS1, and implemented room.cpp and the message queue
+Lucas did the receiver part in MS1, and implemented room.cpp and the message queue, and part of the readme
 
 Both of us styled/cleaned up our parts of the code separately.
+
+One of our computers had trouble running tests manually, and couldnt push through github. Of course we could transfer stuff
+through the autograder but it slowed everything down for a while
 
 Note on tests: with regard to the automated tests provided, sequential works fine, however interleaved has a minor error. The
 program runs all the relevant tests/commands in the script just fine with the expected output, but fails when cleaning up 
 because it tries to remove an empty directory. We dont know exactly why this is happening, nor what it's an indicator of. 
-Concurrent also runs with errors. When forking, it declares that resources arent available.
+Concurrent also runs with errors. When forking, it declares that resources arent available. (same issue was raised on courselore)
 
 
 Critical sections are handled in message_queue, room, and server files.

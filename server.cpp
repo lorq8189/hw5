@@ -207,17 +207,13 @@ bool Server::listen() {
 
   std::string portStr = std::to_string(m_port);
   m_ssock = open_listenfd(portStr.c_str());
-  if (m_ssock < 0) {
-    return false;
-  }
-
-  return true;
+  return (m_ssock >= 0);
 }
 
 void Server::handle_client_requests() {
   // infinite loop calling accept or Accept, starting a new
   // pthread for each connected client
-  Guard g(m_lock);
+
   while (1) {
 
     int clientfd = Accept(m_ssock, NULL, NULL);
@@ -227,7 +223,6 @@ void Server::handle_client_requests() {
     }
 
     ConnInfo *info = new ConnInfo(*this, clientfd);
-    Guard g(m_lock);
     pthread_t thr_id;
     if (pthread_create(&thr_id, NULL, worker, static_cast<void*>(info)) != 0) {
       std::cerr << "pthread_create failed\n";
@@ -256,5 +251,4 @@ Room *Server::find_or_create_room(const std::string &room_name) {
   m_rooms[new_room_name] = newRoom;
 
   return newRoom;
-
 }
