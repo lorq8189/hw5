@@ -17,26 +17,28 @@ Room::~Room() {
 }
 
 void Room::add_member(User *user) {
+  Guard myguard(lock);
   // TODO: add User to the room
-  Guard g(lock);
   members.insert(user);
 }
 
 void Room::remove_member(User *user) {
+  Guard myguard(lock);
   // TODO: remove User from the room
-  Guard g(lock);
-  members.erase(user);
+  auto it = members.find(user);
+  if (it != members.end()) 
+    members.erase(it);  // Remove the User pointer from the set
 }
 
 void Room::broadcast_message(const std::string &sender_username, const std::string &message_text) {
   // TODO: send a message to every (receiver) User in the room
   Guard g(lock);
-  std::string msgtext = room_name+":"+sender_username+":"+message_text;
-  Message msg(TAG_DELIVERY, msgtext);
-  for (User* m : members)
-  {
-    m->mqueue.enqueue(&msg);
+  std::string msgTxt = get_room_name() + ":" + sender_username.substr(0, sender_username.length() - 1) 
+  + ":" + message_text.substr(0, message_text.length() - 1);     // remove newline characters
+
+  for (User *user : members) {
+    Message *msg = new Message(TAG_DELIVERY, msgTxt);
+    user->mqueue.enqueue(msg);
   }
 }
-
-//    serverConnection.send(senderMsg);  
+ 

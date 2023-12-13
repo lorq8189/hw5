@@ -50,9 +50,8 @@ namespace {
 void clear(ConnInfo *info) {
 
   // leave the room
-  if (info->room != nullptr) {
+  if (info->room != nullptr) 
     info->room->remove_member(info->user);
-  }
   // clear all memory
   info->connection.close();
   return;
@@ -60,10 +59,7 @@ void clear(ConnInfo *info) {
 
 bool generate_response(ConnInfo *info, const std::string &tag, const std::string &msgTxt) {
   Message msg(tag, msgTxt);
-  if (!info->connection.send(msg)) { // lose connection
-    return false;
-  }
-  return true;
+  return info->connection.send(msg); // loss of connection or not
 }
 
 void chat_with_receiver(ConnInfo *info) {
@@ -111,9 +107,8 @@ void chat_with_sender(ConnInfo *info) {
     }
     if (receiveMsg.tag == TAG_JOIN) {
 
-      if (info->room != nullptr) {
+      if (info->room != nullptr) 
         info->room->remove_member(info->user); // quit the current room first
-      }
     
       Room *room = info->server.find_or_create_room(receiveMsg.data);
       info->room = room;
@@ -138,9 +133,8 @@ void chat_with_sender(ConnInfo *info) {
     } else if (receiveMsg.tag == TAG_SENDALL) {
       info->room->broadcast_message(info->user->username, receiveMsg.data);
       generate_response(info, TAG_OK, "Message sent successfully");
-    } else {
+    } else 
       generate_response(info, TAG_ERR, "Invalid Command!");
-    }
   }
 }
 
@@ -156,9 +150,9 @@ void *worker(void *arg) {
   //       TAG_SLOGIN or TAG_RLOGIN), send response
   Message loginMessage;
 
-  if (!info->connection.receive(loginMessage)) {
+  if (!info->connection.receive(loginMessage)) 
     std::cerr << "Error reading login message\n";
-  } 
+  
   User *user = new User(loginMessage.data);
   info->user = user;
 
@@ -238,7 +232,6 @@ void Server::handle_client_requests() {
       std::cerr << "pthread_create failed\n";
       delete info;
     }
-    
   }
 }
 

@@ -58,14 +58,10 @@ int main(int argc, char **argv) {
       serverConnection.close();
       exit(1);
     }
-    if(serverResponse.tag == TAG_ERR) {
+    if(serverResponse.tag == TAG_ERR) 
       std::cerr << serverResponse.data;
-    }
-
-    if(senderMsg.tag == TAG_QUIT) {     //quit block
+    if(senderMsg.tag == TAG_QUIT)      //quit block
       break;
-    }
-
   }
 
   serverConnection.close();
