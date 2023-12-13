@@ -219,6 +219,7 @@ void Server::handle_client_requests() {
   // pthread for each connected client
   Guard g(m_lock);
   while (1) {
+
     int clientfd = Accept(m_ssock, NULL, NULL);
     if (clientfd < 0) {
       std::cerr << "Error accepting client connection\n";
@@ -226,7 +227,6 @@ void Server::handle_client_requests() {
     }
 
     ConnInfo *info = new ConnInfo(*this, clientfd);
-
     Guard g(m_lock);
     pthread_t thr_id;
     if (pthread_create(&thr_id, NULL, worker, static_cast<void*>(info)) != 0) {
@@ -247,8 +247,8 @@ Room *Server::find_or_create_room(const std::string &room_name) {
 
   // room is found
   if (it != m_rooms.end()) {
-      Room *existingRoom = it->second;
-      return existingRoom;
+    Room *existingRoom = it->second;
+    return existingRoom;
   }
 
   // create a new room if it's not found
