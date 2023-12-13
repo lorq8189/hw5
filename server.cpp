@@ -217,7 +217,7 @@ bool Server::listen() {
 void Server::handle_client_requests() {
   // infinite loop calling accept or Accept, starting a new
   // pthread for each connected client
-
+  Guard g(m_lock);
   while (1) {
     int clientfd = Accept(m_ssock, NULL, NULL);
     if (clientfd < 0) {
@@ -227,6 +227,7 @@ void Server::handle_client_requests() {
 
     ConnInfo *info = new ConnInfo(*this, clientfd);
 
+    Guard g(m_lock);
     pthread_t thr_id;
     if (pthread_create(&thr_id, NULL, worker, static_cast<void*>(info)) != 0) {
       std::cerr << "pthread_create failed\n";
